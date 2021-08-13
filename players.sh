@@ -1,7 +1,7 @@
 #!/bin/bash
 # https://github.com/Xarius86/players.sh
 
-# Script to generate a list of all players that have joined a server.
+# Script to generate a list of all players that have joined a Minecraft server.
 # Place in /server/world/playerdata folder. Make executable, and run.
 # Will generate players.txt that includes player names and UUID's.
 # REQUIRES 'curl' and 'jq' to be installed on your system.
