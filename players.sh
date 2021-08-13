@@ -54,7 +54,7 @@ ls | grep -Ei "dat" | grep -Eiv "dat_old" >> uuids.tmp;
 sed 's/\.dat *$//' uuids.tmp > uuids2.tmp && mv uuids2.tmp uuids.tmp;
 
 # Loop through each UUID
-echo "Retrieving player names from Mojang...";
+echo "Retrieving player names...";
 FILE="uuids.tmp";
 LINES=$(cat $FILE);
 i=1;
@@ -72,9 +72,13 @@ fi
 for LINE in $LINES
 do
     # Get name from UUID using Mojang API
-    UUID_JSON_STRING="curl -s 'https://api.mojang.com/user/profiles/$LINE/names'";
-    UUID_NAME_STRING="$UUID_JSON_STRING | jq '.[-1].name'";
-    UUID_NAME=$(eval $UUID_NAME_STRING | sed 's/"//g' );
+    if [ $1 = "--nbtonly" ]; then
+        UUID_NAME="";
+    else
+        UUID_JSON_STRING="curl -s 'https://api.mojang.com/user/profiles/$LINE/names'";
+        UUID_NAME_STRING="$UUID_JSON_STRING | jq '.[-1].name'";
+        UUID_NAME=$(eval $UUID_NAME_STRING | sed 's/"//g' );
+    fi
 
     # Check for empty name.
     if [ -z $UUID_NAME ]; then
